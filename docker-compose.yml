@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  tun_interface:
+    build: .
+    network_mode: "host"
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - "/dev/net/tun:/dev/net/tun"
+
+  test_container:
+    image: alpine
+    command: sh -c "while true; do ping -c 1 10.0.0.1; sleep 5; done"
+    network_mode: "host"
